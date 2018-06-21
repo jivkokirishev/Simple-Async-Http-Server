@@ -15,7 +15,7 @@ namespace Simple_Async_Http_Server.Server.Http
 
         public HttpHeaderCollection()
         {
-            this.headers = new ConcurrentDictionary<string, HttpHeader>();
+            this.headers = new Dictionary<string, HttpHeader>();
         }
 
         public void Add(HttpHeader header)
