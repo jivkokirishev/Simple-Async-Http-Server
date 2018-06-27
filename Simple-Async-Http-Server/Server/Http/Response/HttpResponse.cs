@@ -18,7 +18,7 @@ namespace Simple_Async_Http_Server.Server.Http.Response
 
         public HttpHeaderCollection Headers { get; set; }
 
-        protected HttpStatusCode StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
 
         private string StatusMessage
         {
