@@ -13,6 +13,8 @@ namespace Simple_Async_Http_Server.Server.Http.Response
         public RedirectResponse(string redirectUrl)
             :base()
         {
+            CommonValidator.ThrowIfNullOrEmpty(redirectUrl, nameof(redirectUrl));
+
             this.StatusCode = HttpStatusCode.Found;
             this.AddHeaders("Location", redirectUrl);
         }

@@ -1,4 +1,5 @@
-﻿using Simple_Async_Http_Server.Server.Http.Contracts;
+﻿using Simple_Async_Http_Server.Server.Common;
+using Simple_Async_Http_Server.Server.Http.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace Simple_Async_Http_Server.Server.Http
 
         public HttpContext(string requestString)
         {
+            CommonValidator.ThrowIfNullOrEmpty(requestString, nameof(requestString));
+
             this.request = new HttpRequest(requestString);
         }
 
