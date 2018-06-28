@@ -32,21 +32,25 @@ namespace Simple_Async_Http_Server.Server
         public async Task ProcessRequestAsync()
         {
             var request = await this.client.ReceiveAsync(SocketFlags.None);
-            var reqContext = new HttpContext(request);
-            var httpResponse = new HttpHandler(this.serverRouteConfig).Handle(reqContext);
 
-            var response = httpResponse.ToString();
-            var respBytes = Encoding.ASCII.GetBytes(response);
-            var buffer = new ArraySegment<byte>(respBytes);
+            if (request != string.Empty)
+            {
+                var reqContext = new HttpContext(request);
+                var httpResponse = new HttpHandler(this.serverRouteConfig).Handle(reqContext);
 
-            await this.client.SendAsync(buffer, SocketFlags.None);
+                var response = httpResponse.ToString();
+                var respBytes = Encoding.ASCII.GetBytes(response);
+                var buffer = new ArraySegment<byte>(respBytes);
 
-            
+                await this.client.SendAsync(buffer, SocketFlags.None);
 
-            Console.WriteLine("----------REQUEST----------");
-            Console.WriteLine(request);
-            Console.WriteLine("----------RESPONSE----------");
-            Console.WriteLine(response);
+
+
+                Console.WriteLine("----------REQUEST----------");
+                Console.WriteLine(request);
+                Console.WriteLine("----------RESPONSE----------");
+                Console.WriteLine(response);
+            }
 
             this.client.ShutDown(SocketShutdown.Both);
         }

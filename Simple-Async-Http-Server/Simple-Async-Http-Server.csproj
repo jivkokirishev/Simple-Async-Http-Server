@@ -43,6 +43,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Server\Common\CommonValidator.cs" />
+    <Compile Include="Server\ConnectionHandler.cs" />
+    <Compile Include="Server\Contracts\IRunnable.cs" />
+    <Compile Include="Server\Contracts\IView.cs" />
+    <Compile Include="Server\CustomSocket\Contracts\ISocketWrapper.cs" />
+    <Compile Include="Server\CustomSocket\SocketWrapper.cs" />
+    <Compile Include="Server\CustomSocket\StateObject.cs" />
+    <Compile Include="Server\Enums\HttpRequestMethod.cs" />
+    <Compile Include="Server\Enums\HttpStatusCode.cs" />
+    <Compile Include="Server\Exceptions\BadRequestExeption.cs" />
+    <Compile Include="Server\Handlers\Contracts\IRequestHandler.cs" />
+    <Compile Include="Server\Handlers\GetHandler.cs" />
+    <Compile Include="Server\Handlers\HttpHandler.cs" />
+    <Compile Include="Server\Handlers\PostHandler.cs" />
+    <Compile Include="Server\Handlers\RequestHandler.cs" />
+    <Compile Include="Server\Http\Contracts\IHttpContext.cs" />
+    <Compile Include="Server\Http\Contracts\IHttpHeaderCollection.cs" />
+    <Compile Include="Server\Http\Contracts\IHttpRequest.cs" />
+    <Compile Include="Server\Http\Contracts\IHttpResponse.cs" />
+    <Compile Include="Server\Http\HttpContext.cs" />
+    <Compile Include="Server\Http\HttpHeader.cs" />
+    <Compile Include="Server\Http\HttpHeaderCollection.cs" />
+    <Compile Include="Server\Http\HttpRequest.cs" />
+    <Compile Include="Server\Http\Response\HttpResponse.cs" />
+    <Compile Include="Server\Http\Response\NotFoundResponse.cs" />
+    <Compile Include="Server\Http\Response\RedirectResponse.cs" />
+    <Compile Include="Server\Http\Response\ViewResponse.cs" />
+    <Compile Include="Server\Routing\AppRouteConfig.cs" />
+    <Compile Include="Server\Routing\Contracts\IAppRouteConfig.cs" />
+    <Compile Include="Server\Routing\Contracts\IRoutingContext.cs" />
+    <Compile Include="Server\Routing\Contracts\IServerRouteConfig.cs" />
+    <Compile Include="Server\Routing\RoutingContext.cs" />
+    <Compile Include="Server\Routing\ServerRouteConfig.cs" />
+    <Compile Include="Server\WebServer.cs" />
     <Compile Include="Starter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,14 +86,6 @@
   <ItemGroup>
     <Folder Include="Application\Controllers\" />
     <Folder Include="Application\Views\" />
-    <Folder Include="Server\Common\" />
-    <Folder Include="Server\Contracts\" />
-    <Folder Include="Server\Enums\" />
-    <Folder Include="Server\Exceptions\" />
-    <Folder Include="Server\Handlers\Contracts\" />
-    <Folder Include="Server\Http\Contracts\" />
-    <Folder Include="Server\Http\Response\" />
-    <Folder Include="Server\Routing\Contracts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

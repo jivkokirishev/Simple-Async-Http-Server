@@ -44,7 +44,7 @@ namespace Simple_Async_Http_Server.Server.CustomSocket
         private async Task Send(byte[] byteData, SocketFlags flags)
         {
             // Begin sending the data to the remote device.  
-            this.client.BeginSend(byteData, 0, byteData.Length, SocketFlags.None,
+            this.client.BeginSend(byteData, 0, byteData.Length, flags,
                 new AsyncCallback(SendCallback), client);
 
             sendDone.WaitOne();
@@ -79,10 +79,9 @@ namespace Simple_Async_Http_Server.Server.CustomSocket
                 state.workSocket = this.client;
                 state.flags = flags;
 
-                // Begin receiving the data from the remote device.  
-                client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
+                // Begin receiving the data from the remote device.
+                this.client.BeginReceive(state.buffer, 0, StateObject.BufferSize, flags,
                     new AsyncCallback(ReceiveCallback), state);
-
                 receiveDone.WaitOne();
                 return state.textData.ToString();
             }
@@ -94,7 +93,7 @@ namespace Simple_Async_Http_Server.Server.CustomSocket
             }
                        
         }
-        private async void ReceiveCallback(IAsyncResult ar)
+        private void ReceiveCallback(IAsyncResult ar)
         {
             try
             {
@@ -104,12 +103,14 @@ namespace Simple_Async_Http_Server.Server.CustomSocket
                 Socket client = state.workSocket;
                 // Read data from the remote device.  
                 int bytesRead = client.EndReceive(ar);
-                if (bytesRead > 0)
+
+                state.textData.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
+
+                if (bytesRead == StateObject.BufferSize)
                 {
-                    // There might be more data, so store the data received so far.  
-                    state.textData.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
                     //  Get the rest of the data.  
-                    client.BeginReceive(state.buffer, 0, StateObject.BufferSize, state.flags,
+                    SocketError error;
+                    this.client.BeginReceive(state.buffer, 0, StateObject.BufferSize, state.flags, out error,
                         new AsyncCallback(ReceiveCallback), state);
                 }
                 else

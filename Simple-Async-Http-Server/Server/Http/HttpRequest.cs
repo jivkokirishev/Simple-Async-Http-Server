@@ -138,7 +138,7 @@ namespace Simple_Async_Http_Server.Server.Http
 
             HttpRequestMethod parsedMethod;
 
-            if (Enum.TryParse(method, true, out parsedMethod))
+            if (!Enum.TryParse(method, true, out parsedMethod))
             {
                 throw new BadRequestExeption($"Request method '{method}' is not valid, or not implemented yet!");
             }
