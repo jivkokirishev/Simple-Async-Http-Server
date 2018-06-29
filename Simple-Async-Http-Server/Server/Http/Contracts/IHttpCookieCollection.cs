@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Simple_Async_Http_Server.Server.Http.Contracts
 {
-    public interface IHttpHeaderCollection : IEnumerable<ICollection<HttpHeader>>
+    public interface IHttpCookieCollection : IEnumerable<HttpCookie>
     {
-        void Add(HttpHeader header);
+        void Add(HttpCookie cookie);
 
         bool ContainsKey(string key);
 
-        ICollection<HttpHeader> GetHeader(string key);
+        HttpCookie GetCookie(string key);
     }
 }

@@ -48,11 +48,11 @@ namespace Simple_Async_Http_Server.Server.Routing
         private string ParseRoute(string requestHandlerKey, ref List<string> parameters)
         {
             var parsedRegex = new StringBuilder();
-            parsedRegex.Append('^');
+            parsedRegex.Append("^/");
 
             if (requestHandlerKey == "/")
             {
-                parsedRegex.Append("/$");
+                parsedRegex.Append("$");
                 return parsedRegex.ToString();
             }
 

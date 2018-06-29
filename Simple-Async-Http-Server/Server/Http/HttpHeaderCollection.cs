@@ -6,23 +6,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Simple_Async_Http_Server.Server.Http
 {
     public class HttpHeaderCollection : IHttpHeaderCollection
     {
-        private readonly IDictionary<string, HttpHeader> headers;
+        private readonly IDictionary<string, ICollection<HttpHeader>> headers;
 
         public HttpHeaderCollection()
         {
-            this.headers = new Dictionary<string, HttpHeader>();
+            this.headers = new Dictionary<string, ICollection<HttpHeader>>();
         }
 
         public void Add(HttpHeader header)
         {
             CommonValidator.ThrowIfNull(headers, nameof(header));
 
-            this.headers[header.Key] = header;
+            if (!this.headers.ContainsKey(header.Key))
+            {
+                this.headers[header.Key] = new List<HttpHeader>();
+            }
+
+            this.headers[header.Key].Add(header);
         }
 
         public bool ContainsKey(string key)
@@ -37,7 +43,17 @@ namespace Simple_Async_Http_Server.Server.Http
             return false;
         }
 
-        public HttpHeader GetHeader(string key)
+        public IEnumerator<ICollection<HttpHeader>> GetEnumerator()
+        {
+            return this.headers.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.headers.Values.GetEnumerator();
+        }
+
+        public ICollection<HttpHeader> GetHeader(string key)
         {
             CommonValidator.ThrowIfNullOrEmpty(key, nameof(key));
 
@@ -53,7 +69,19 @@ namespace Simple_Async_Http_Server.Server.Http
 
         public override string ToString()
         {
-            return string.Join(Environment.NewLine, this.headers);
+            var result = new StringBuilder();
+
+            foreach (var header in this.headers)
+            {
+                var key = header.Key;
+
+                foreach (var val in header.Value)
+                {
+                    result.AppendLine($"{key}: {val.Value}");
+                }
+            }
+
+            return result.ToString();
         }
     }
 }
