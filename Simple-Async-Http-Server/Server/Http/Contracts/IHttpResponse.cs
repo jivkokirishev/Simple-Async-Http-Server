@@ -9,8 +9,10 @@ namespace Simple_Async_Http_Server.Server.Http.Contracts
 {
     public interface IHttpResponse
     {
-        HttpHeaderCollection Headers { get; set; }
+        IHttpHeaderCollection Headers { get; }
 
-        HttpStatusCode StatusCode { get; set; }
+        IHttpCookieCollection Cookies { get; }
+
+        HttpStatusCode StatusCode { get; }
     }
 }

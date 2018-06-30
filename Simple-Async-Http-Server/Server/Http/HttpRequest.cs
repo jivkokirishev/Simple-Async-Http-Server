@@ -18,6 +18,7 @@ namespace Simple_Async_Http_Server.Server.Http
             CommonValidator.ThrowIfNullOrEmpty(requestString, nameof(requestString));
 
             this.Headers = new HttpHeaderCollection();
+            this.Cookies = new HttpCookieCollection();
             this.UrlParameters = new Dictionary<string, string>();
             this.QueryParameters = new Dictionary<string, string>();
             this.FormData = new Dictionary<string, string>();
@@ -27,7 +28,9 @@ namespace Simple_Async_Http_Server.Server.Http
 
         public IDictionary<string, string> FormData { get; private set; }
 
-        public HttpHeaderCollection Headers { get; private set; }
+        public IHttpHeaderCollection Headers { get; private set; }
+
+        public IHttpCookieCollection Cookies { get; private set; }
 
         public string Path { get; private set; }
 
@@ -78,6 +81,8 @@ namespace Simple_Async_Http_Server.Server.Http
             {
                 this.ParseQuery(requestLines.Last(), this.FormData);
             }
+
+            this.ParseCookies();
         }
 
         private void ParseParameters()
@@ -144,6 +149,35 @@ namespace Simple_Async_Http_Server.Server.Http
             }
 
             return parsedMethod;
+        }
+
+        private void ParseCookies()
+        {
+            if (this.Headers.ContainsKey("Cookie"))
+            {
+                var cookiesList = this.Headers.GetHeader("Cookie");
+
+                foreach (var header in cookiesList)
+                {
+                    var cookieStr = header.Value;
+
+                    if (!string.IsNullOrEmpty(cookieStr))
+                    {
+                        var cookies = cookieStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        foreach (var c in cookies)
+                        {
+                            if (c.Contains('='))
+                            {
+                                var cookieKVP = c.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+
+                                var httpCookie = new HttpCookie(cookieKVP.FirstOrDefault(), cookieKVP.LastOrDefault(), false);
+                                this.Cookies.Add(httpCookie);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

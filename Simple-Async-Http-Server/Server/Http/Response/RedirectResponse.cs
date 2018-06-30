@@ -20,7 +20,7 @@ namespace Simple_Async_Http_Server.Server.Http.Response
         }
 
         
-        private  void AddHeaders(string key, string value)
+        private void AddHeaders(string key, string value)
         {
             CommonValidator.ThrowIfNullOrEmpty(key, nameof(key));
             CommonValidator.ThrowIfNullOrEmpty(value, nameof(value));

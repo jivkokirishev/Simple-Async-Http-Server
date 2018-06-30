@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Simple_Async_Http_Server.Server.Http.Contracts;
 using Simple_Async_Http_Server.Server.Common;
+using Simple_Async_Http_Server.Server.Http;
 
 namespace Simple_Async_Http_Server.Server.Handlers
 {
@@ -24,7 +25,12 @@ namespace Simple_Async_Http_Server.Server.Handlers
             CommonValidator.ThrowIfNull(httpContext, nameof(httpContext));
 
             IHttpResponse response = this.handlerFunc.Invoke(httpContext.Request);
-            response.Headers.Add(new Http.HttpHeader("Content-type", "text/html"));
+            response.Headers.Add(new HttpHeader("Content-type", "text/html"));
+
+            foreach (var cookie in response.Cookies)
+            {
+                response.Headers.Add(new HttpHeader("Set-Cookie", cookie.ToString()));
+            }
 
             return response;
         }

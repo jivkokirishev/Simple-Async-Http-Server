@@ -62,7 +62,10 @@
     <Compile Include="Server\Http\Contracts\IHttpHeaderCollection.cs" />
     <Compile Include="Server\Http\Contracts\IHttpRequest.cs" />
     <Compile Include="Server\Http\Contracts\IHttpResponse.cs" />
+    <Compile Include="Server\Http\Contracts\IHttpCookieCollection.cs" />
     <Compile Include="Server\Http\HttpContext.cs" />
+    <Compile Include="Server\Http\HttpCookie.cs" />
+    <Compile Include="Server\Http\HttpCookieCollection.cs" />
     <Compile Include="Server\Http\HttpHeader.cs" />
     <Compile Include="Server\Http\HttpHeaderCollection.cs" />
     <Compile Include="Server\Http\HttpRequest.cs" />

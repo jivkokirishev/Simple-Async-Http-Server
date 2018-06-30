@@ -11,7 +11,9 @@ namespace Simple_Async_Http_Server.Server.Http.Contracts
     {
         IDictionary<string, string> FormData { get; }
 
-        HttpHeaderCollection Headers { get; }
+        IHttpHeaderCollection Headers { get; }
+
+        IHttpCookieCollection Cookies { get; }
 
         string Path { get; }
 

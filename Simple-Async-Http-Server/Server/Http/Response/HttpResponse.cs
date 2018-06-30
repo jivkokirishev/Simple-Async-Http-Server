@@ -14,11 +14,14 @@ namespace Simple_Async_Http_Server.Server.Http.Response
         protected HttpResponse()
         {
             this.Headers = new HttpHeaderCollection();
+            this.Cookies = new HttpCookieCollection();
         }
 
-        public HttpHeaderCollection Headers { get; set; }
+        public IHttpHeaderCollection Headers { get; }
 
-        public HttpStatusCode StatusCode { get; set; }
+        public IHttpCookieCollection Cookies { get; }
+
+        public HttpStatusCode StatusCode { get; protected set; }
 
         private string StatusMessage
         {
