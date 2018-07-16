@@ -14,6 +14,7 @@ namespace Simple_Async_Http_Server.Server.Http.Contracts
         IHttpHeaderCollection Headers { get; }
 
         IHttpCookieCollection Cookies { get; }
+        IHttpSession Session { get; set; }
 
         string Path { get; }
 

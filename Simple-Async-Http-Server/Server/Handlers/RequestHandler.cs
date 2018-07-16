@@ -24,7 +24,21 @@ namespace Simple_Async_Http_Server.Server.Handlers
         {
             CommonValidator.ThrowIfNull(httpContext, nameof(httpContext));
 
+            string sessId = null;
+
+            if (!httpContext.Request.Cookies.ContainsKey("SID"))
+            {
+                sessId = Guid.NewGuid().ToString();
+                 httpContext.Request.Session = SessionStore.GetOrAdd(sessId);
+            }
+
             IHttpResponse response = this.handlerFunc.Invoke(httpContext.Request);
+
+            if (!string.IsNullOrEmpty(sessId))
+            {
+                response.Headers.Add(new HttpHeader("Set-Cookie", $"SID={sessId}; HttpOnly; path=/"));
+            }
+
             response.Headers.Add(new HttpHeader("Content-type", "text/html"));
 
             foreach (var cookie in response.Cookies)

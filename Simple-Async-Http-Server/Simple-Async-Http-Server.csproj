@@ -58,11 +58,13 @@
     <Compile Include="Server\Handlers\HttpHandler.cs" />
     <Compile Include="Server\Handlers\PostHandler.cs" />
     <Compile Include="Server\Handlers\RequestHandler.cs" />
+    <Compile Include="Server\Http\Contracts\HttpSession.cs" />
     <Compile Include="Server\Http\Contracts\IHttpContext.cs" />
     <Compile Include="Server\Http\Contracts\IHttpHeaderCollection.cs" />
     <Compile Include="Server\Http\Contracts\IHttpRequest.cs" />
     <Compile Include="Server\Http\Contracts\IHttpResponse.cs" />
     <Compile Include="Server\Http\Contracts\IHttpCookieCollection.cs" />
+    <Compile Include="Server\Http\Contracts\IHttpSession.cs" />
     <Compile Include="Server\Http\HttpContext.cs" />
     <Compile Include="Server\Http\HttpCookie.cs" />
     <Compile Include="Server\Http\HttpCookieCollection.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="Server\Http\Response\NotFoundResponse.cs" />
     <Compile Include="Server\Http\Response\RedirectResponse.cs" />
     <Compile Include="Server\Http\Response\ViewResponse.cs" />
+    <Compile Include="Server\Http\SessionStore.cs" />
     <Compile Include="Server\Routing\AppRouteConfig.cs" />
     <Compile Include="Server\Routing\Contracts\IAppRouteConfig.cs" />
     <Compile Include="Server\Routing\Contracts\IRoutingContext.cs" />

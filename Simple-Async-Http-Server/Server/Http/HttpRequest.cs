@@ -32,6 +32,8 @@ namespace Simple_Async_Http_Server.Server.Http
 
         public IHttpCookieCollection Cookies { get; private set; }
 
+        public IHttpSession Session { get; set; }
+
         public string Path { get; private set; }
 
         public IDictionary<string, string> QueryParameters { get; private set; }
@@ -83,6 +85,17 @@ namespace Simple_Async_Http_Server.Server.Http
             }
 
             this.ParseCookies();
+
+            this.SetSession();
+        }
+
+        private void SetSession()
+        {
+            if (this.Cookies.ContainsKey("SID"))
+            {
+                var sessId = this.Cookies.GetCookie("SID").Value;
+                this.Session = SessionStore.GetOrAdd(sessId);
+            }
         }
 
         private void ParseParameters()
@@ -161,7 +174,7 @@ namespace Simple_Async_Http_Server.Server.Http
                 {
                     var cookieStr = header.Value;
 
-                    if (!string.IsNullOrEmpty(cookieStr))
+                    if (!string.IsNullOrEmpty(cookieStr) && cookieStr.Contains("="))
                     {
                         var cookies = cookieStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -171,7 +184,7 @@ namespace Simple_Async_Http_Server.Server.Http
                             {
                                 var cookieKVP = c.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                var httpCookie = new HttpCookie(cookieKVP.FirstOrDefault(), cookieKVP.LastOrDefault(), false);
+                                var httpCookie = new HttpCookie(cookieKVP.FirstOrDefault().Trim(), cookieKVP.LastOrDefault().Trim(), false);
                                 this.Cookies.Add(httpCookie);
                             }
                         }
